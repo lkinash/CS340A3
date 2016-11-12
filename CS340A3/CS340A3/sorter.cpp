@@ -7,10 +7,13 @@
 //
 
 #include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+#include <iostream>
 #include "sorter.h"
 
 void Sorter::insertionSort (){
-    for(int i = 1; i < (N - 1); i++){
+    for(int i = 1; i < N ; i++){
         int temp = array[i];
         int j = i;
         while(( j > 0 ) && (temp < array[j - 1])){
@@ -69,8 +72,8 @@ void Sorter::quickInsertionSort (int left, int right){
      return;
 }
 
+//void mergeSort(int array[], int left, int right){
 
-//void Sorter::mergeSort (a, b, bottomLeft, topRight){
 /*
     if bottomLeft < topRight
 // partition phase
@@ -109,6 +112,62 @@ topRight --
 //}
 
 
+void Sorter::runInsertionSortTimed(){
+    
+    clock_t startTime = clock();
+
+    insertionSort();
+    
+    clock_t endTime = clock();
+    
+    clock_t duration = double(endTime - startTime)/CLOCKS_PER_SEC * 1000;
+    
+    cout<<"Insertion Sort Time: "<< duration << " ms" << endl;
+    
+}
+
+void Sorter::runMergeSortTimed(){
+ 
+    clock_t startTime = clock();
+    
+    //mergeSort(array, 0, (N-1));
+    
+    clock_t endTime = clock();
+    
+    clock_t duration = double(endTime - startTime)/CLOCKS_PER_SEC * 1000;
+    
+    cout<<"Merge Sort Time: "<< duration << " ms" << endl;
+    
+}
+
+void Sorter::runQuickSortTimed(){
+    
+    clock_t startTime = clock();
+    
+    quickSort(0, (N-1));
+    
+    clock_t endTime = clock();
+    
+    clock_t duration = double(endTime - startTime)/CLOCKS_PER_SEC * 1000;
+    
+    cout<<"Quick Sort Time: "<< duration << " ms" << endl;
+    
+}
+
+void Sorter::runQuickInsertionSortTimed(){
+    
+    clock_t startTime = clock();
+    
+    quickInsertionSort(0, (N-1));
+    
+    clock_t endTime = clock();
+    
+    clock_t duration = double(endTime - startTime)/CLOCKS_PER_SEC * 1000;
+    
+    cout<<"Quick Insertion Sort Time: "<< duration << " ms" << endl;
+    
+}
+
 void Sorter::promtUser(){
     
 }
@@ -117,11 +176,39 @@ void Sorter::takeUserInput(){
     
 }
 
-void Sorter::fillArray(){
+void Sorter::copyArray(){
     
+    for(int i = 0; i < N ; i++){
+        arrayToSort[i] = array[i];
+    }
 }
 
-void Sorter::timer(){
+void Sorter::runTimerTests(){
+    
+    fillArrayWithRandomNaturals();
+    
+    copyArray();
+    
+    printArray();
+    runInsertionSortTimed();
+    printArray();
+    
+    /*
+    *arrayToBeSorted = *array;
+    printArray(arrayToBeSorted);
+    runMergeSortTimed(arrayToBeSorted);
+    printArray(arrayToBeSorted);
+    */
+    
+    copyArray();
+    printArray();
+    runQuickSortTimed();
+    printArray();
+    
+    copyArray();
+    printArray();
+    runQuickInsertionSortTimed();
+    printArray();
     
 }
 
@@ -142,6 +229,14 @@ int Sorter::medianThree(int left, int right){
     return 1;
 }
 
+Sorter::Sorter(){
+    
+    K = 5;
+    N = 20;
+    
+    srand (time(NULL));
+}
+
 void Sorter::swap(int index1, int index2){        //the swap function takes the index of two nodes in the heap and then switches the two values
     
     if(index1 > N || index2 > N)               //first it checks that the two values to be swapped are in bounds
@@ -152,6 +247,40 @@ void Sorter::swap(int index1, int index2){        //the swap function takes the 
     array[index2] = temp;                    //then puts the first value in the second effictively swapping them
     
     return;
+}
+
+void Sorter::fillArrayWithRandomNaturals(){
+ 
+    if(N <= 0){
+        throw EmptySet();
+    }
+    
+    for(int i = 0; i < N; i++){
+        array[i] = randomNatural();
+    }
+    return;
+}
+
+void Sorter::printArray(){
+    
+    if(N <= 0){
+        throw EmptySet();
+    }
+    
+    cout << array[0];
+    
+    for(int i = 1; i < N; i++){
+        cout << ", " << array[i];
+    }
+    
+    cout << endl;
+    
+    return;
+}
+
+int Sorter::randomNatural(){
+    
+    return ((rand() % 100) + 1);
 }
 
 

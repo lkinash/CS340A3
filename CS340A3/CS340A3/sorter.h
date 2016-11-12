@@ -13,30 +13,43 @@ using namespace std;
 
 class OutOfBounds{};
 
+class EmptySet{};
+
 class Sorter{
     public:
     
     Sorter();
     
     void insertionSort();
-    void mergeSort();
+    //void mergeSort(int left, int right);
     void quickSort(int left, int right);
     void quickInsertionSort(int left, int right);
+    
+    void runInsertionSortTimed();
+    void runMergeSortTimed();
+    void runQuickSortTimed();
+    void runQuickInsertionSortTimed();
     
     void promtUser();
     void takeUserInput();
     
-    void fillArray();
-    
-    void timer();
+    void copyArray();
+    void printArray();
+    void runTimerTests();
     
     int medianThree(int left, int right);
     
     void swap(int index1, int index2);
     
+    void fillArrayWithRandomNaturals();
+    int randomNatural();
+    
     private:
-    int arraySize, K, N;
-    int array[];
+    const static int arrayMax = 1000;
+    int K, N;
+    int array[arrayMax];
+    int arrayToSort[arrayMax];
+    
     
 };
 
