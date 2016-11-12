@@ -118,9 +118,13 @@ void Sorter::runInsertionSortTimed(){
 
     insertionSort();
     
+    for(int i = 0; i < 10000000; i++);
+    
     clock_t endTime = clock();
     
-    clock_t duration = double(endTime - startTime)/CLOCKS_PER_SEC * 1000;
+    clock_t duration = double(endTime - startTime)/CLOCKS_PER_SEC;
+    
+    double dur = (double)duration * 1000;
     
     cout<<"Insertion Sort Time: "<< duration << " ms" << endl;
     
@@ -232,7 +236,7 @@ int Sorter::medianThree(int left, int right){
 Sorter::Sorter(){
     
     K = 5;
-    N = 20;
+    N = 200;
     
     srand (time(NULL));
 }
