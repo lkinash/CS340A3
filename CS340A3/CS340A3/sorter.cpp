@@ -12,8 +12,8 @@
 #include <iostream>
 #include "sorter.h"
 
-void Sorter::insertionSort (){
-    for(int i = 1; i < N ; i++){
+void Sorter::insertionSort(int start, int end){
+    for(int i = start; i < end ; i++){
         int temp = array[i];
         int j = i;
         while(( j > 0 ) && (temp < array[j - 1])){
@@ -26,22 +26,25 @@ void Sorter::insertionSort (){
 }
 
 void Sorter::quickSort(int left, int right){
-
-      int pivot = medianThree(left, right);
-      int i = left;
-      int j = (right - 1);
-      while(1){
+    
+    int pivot = medianThree(left, right);
+    
+    int i = left;
+    int j = right;
+    for(;;){
         while(array[++i] < pivot) {}
         while(pivot < array[--j]) {}
-        if(i < j){
+        if(i <= j){
             swap(i, j);
         }
         else
             break;
-      }
-     swap(i, (right-1)); // Restore pivot
-     quickSort(left, (i-1));      // Sort small elements
-     quickSort(i+1, right);    // Sort large elements
+    }
+    
+    if (left < j)
+        quickSort(left, j);   // Sort small elements
+    if (i < right)
+        quickSort(i, right);    // Sort large elements
 
     return;
 }
@@ -50,81 +53,91 @@ void Sorter::quickInsertionSort (int left, int right){
 
     if (left + K <= right){
         int pivot = medianThree(left, right);
+  
         int i = left;
-        int j = (right - 1);
-        while(1){
+        int j = right;
+        for(;;){
             while(array[++i] < pivot) {}
             while(pivot < array[--j]) {}
-            if(i < j){
+            if(i <= j){
                 swap(i, j);
             }
             else
                 break;
         }
-        swap(i, (right-1)); // Restore pivot
-        quickSort(left, (i-1));      // Sort small elements
-        quickSort(i+1, right);    // Sort large elements
+        
+        if (left < j)
+            quickSort(left, j);   // Sort small elements
+        if (i < right)
+            quickSort(i, right);    // Sort large elements
     }
     
-    else       // Do an insertion sort on the subarray
-       //  insertionSort(left, right);
+    else
+       insertionSort(left, right);
     
      return;
 }
 
-//void mergeSort(int array[], int left, int right){
 
-/*
-    if bottomLeft < topRight
-// partition phase
-bottomRight = (bottomLeft + topRight) / 2
-MergeSort (a, b, bottomLeft, bottomRight)
-topLeft = bottomRight + 1
-MergeSort (a, b, topLeft, topRight)
-// merge phase
-i = bottomLeft
-elementCount = topRight - bottomLeft + 1
-while bottomLeft <= bottomRight and topLeft <= topRight
-if a [bottomLeft] <= a [topLeft]
-b [i] = a [bottomLeft]
-bottomLeft ++
-else
-b [i] = a [topLeft]
-topLeft ++
-i ++
-while bottomLeft <= bottomRight
-b [i] = a [bottomLeft]
-bottomLeft ++
-i ++
-while topLeft <= topRight
-b [i] = a [topLeft]
-topLeft ++
-i ++
-// result in a
-i = 0
-while i < elementCount
-a [topRight] = b [topRight]
-i ++
-topRight --
-*/
-   // return;
+void Sorter::mergeSort(int left, int right){
+
+    int bottomLeft = left;
+    int topRight = right;
+    
+    if (bottomLeft < topRight){
+
+        int bottomRight = ((bottomLeft + topRight) / 2);
+        mergeSort(bottomLeft, bottomRight);
+        
+        int topLeft = (bottomRight + 1);
+        mergeSort(topLeft, topRight);
+
+        
+        int i = bottomLeft;
+        int count = topRight - bottomLeft + 1;
+        
+        while(bottomLeft <= bottomRight && topLeft <= topRight){
+            if(array[bottomLeft] <= array[topLeft]){
+                mergeB [i] = array[bottomLeft];
+                bottomLeft ++;
+            }
+            else{
+                mergeB [i] = array[topLeft];
+                topLeft ++;
+            }
+            i ++;
+        }
+        while(bottomLeft <= bottomRight){
+            mergeB[i] = array[bottomLeft];
+            bottomLeft++;
+            i++;
+        }
+        while(topLeft <= topRight){
+            mergeB[i] = array[topLeft];
+            topLeft++;
+            i++;
+        }
+
+        i = 0;
+        while(i < count){
+            array[topRight] = mergeB[topRight];
+            i++;
+            topRight--;
+        }
+    }
+    return;
  
-//}
-
+}
 
 void Sorter::runInsertionSortTimed(){
     
     clock_t startTime = clock();
 
-    insertionSort();
-    
-    for(int i = 0; i < 10000000; i++);
+    insertionSort(0, N);
     
     clock_t endTime = clock();
     
-    clock_t duration = double(endTime - startTime)/CLOCKS_PER_SEC;
-    
-    double dur = (double)duration * 1000;
+    double duration = double((endTime - startTime))/CLOCKS_PER_SEC * 1000;
     
     cout<<"Insertion Sort Time: "<< duration << " ms" << endl;
     
@@ -134,11 +147,11 @@ void Sorter::runMergeSortTimed(){
  
     clock_t startTime = clock();
     
-    //mergeSort(array, 0, (N-1));
+    mergeSort(0, N-1);
     
     clock_t endTime = clock();
     
-    clock_t duration = double(endTime - startTime)/CLOCKS_PER_SEC * 1000;
+    double duration = double(endTime - startTime)/CLOCKS_PER_SEC * 1000;
     
     cout<<"Merge Sort Time: "<< duration << " ms" << endl;
     
@@ -148,11 +161,11 @@ void Sorter::runQuickSortTimed(){
     
     clock_t startTime = clock();
     
-    quickSort(0, (N-1));
+    quickSort(0, N);
     
     clock_t endTime = clock();
     
-    clock_t duration = double(endTime - startTime)/CLOCKS_PER_SEC * 1000;
+    double duration = double(endTime - startTime)/CLOCKS_PER_SEC * 1000;
     
     cout<<"Quick Sort Time: "<< duration << " ms" << endl;
     
@@ -162,11 +175,11 @@ void Sorter::runQuickInsertionSortTimed(){
     
     clock_t startTime = clock();
     
-    quickInsertionSort(0, (N-1));
+    quickInsertionSort(0, N);
     
     clock_t endTime = clock();
     
-    clock_t duration = double(endTime - startTime)/CLOCKS_PER_SEC * 1000;
+    double duration = double(endTime - startTime)/CLOCKS_PER_SEC * 1000;
     
     cout<<"Quick Insertion Sort Time: "<< duration << " ms" << endl;
     
@@ -183,72 +196,72 @@ void Sorter::takeUserInput(){
 void Sorter::copyArray(){
     
     for(int i = 0; i < N ; i++){
-        arrayToSort[i] = array[i];
+        array[i] = arrayToSave[i];
     }
 }
 
 void Sorter::runTimerTests(){
     
     fillArrayWithRandomNaturals();
-    
     copyArray();
-    
     printArray();
+    
     runInsertionSortTimed();
-    printArray();
-    
-    /*
-    *arrayToBeSorted = *array;
-    printArray(arrayToBeSorted);
-    runMergeSortTimed(arrayToBeSorted);
-    printArray(arrayToBeSorted);
-    */
+    //printArray();
     
     copyArray();
-    printArray();
+    runMergeSortTimed();
+    //printArray();
+    
+    copyArray();
     runQuickSortTimed();
-    printArray();
+    //printArray();
     
     copyArray();
-    printArray();
     runQuickInsertionSortTimed();
-    printArray();
+    //printArray();
     
 }
 
 
 int Sorter::medianThree(int left, int right){
     
-    /*
-    int center = (left+right)/2;
-    if (a[center] < a[left])
-        swap(a[left], a[center]);
-    if (a[right] < a[left])
-        swap(a[left], a[right]);
-    if (a[right] < a[center])
-        swap(a[center], a[right]);
-    swap(a[center], a[right − 1]); // Place pivot at position right - 1 10
-    return a[right − 1];
-     */
-    return 1;
+    if( right >= N)
+        right = N - 1;
+    
+    int center = ((right + left) / 2);
+    
+    if(array[center] < array[left])
+        swap(left, center);
+    if (array[right] < array[left])
+        swap(left, right);
+    if (array[right] < array[center])
+        swap(center, right);
+
+    return array[center];
 }
 
 Sorter::Sorter(){
     
-    K = 5;
-    N = 200;
+    K = 15;
+    N = 100000;
     
     srand (time(NULL));
 }
 
 void Sorter::swap(int index1, int index2){        //the swap function takes the index of two nodes in the heap and then switches the two values
     
-    if(index1 > N || index2 > N)               //first it checks that the two values to be swapped are in bounds
+    //cout << "swap: " << index1 <<  ", " << index2 << endl;
+    //cout << "swap numbers: " << array[index1] << " and " << array[index2] << endl;
+    
+    if(index1 > N || index2 > N || index1 < 0 || index2 < 0 )  //first it checks that the two values to be swapped are in bounds
         throw OutOfBounds();                    //throws and out of bounds error if they are not
     
     int temp = array[index1];                //it creates a temp to hold the first value
     array[index1] = array[index2];            //puts the second value in the first value
     array[index2] = temp;                    //then puts the first value in the second effictively swapping them
+    
+    //cout << "swapped: " << array[index1] << " and " << array[index2] << endl;
     
     return;
 }
@@ -260,7 +273,7 @@ void Sorter::fillArrayWithRandomNaturals(){
     }
     
     for(int i = 0; i < N; i++){
-        array[i] = randomNatural();
+        arrayToSave[i] = randomNatural();
     }
     return;
 }

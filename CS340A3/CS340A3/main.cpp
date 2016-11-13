@@ -17,7 +17,7 @@ int main() {
     
     sorter.runTimerTests();
     
-    //cout <<  sorter.randomNatural() << endl;
+    //cout <<  CLOCKS_PER_SEC << endl;
     
     return 0;
 }

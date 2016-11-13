@@ -20,10 +20,10 @@ class Sorter{
     
     Sorter();
     
-    void insertionSort();
-    //void mergeSort(int left, int right);
+    void insertionSort(int start, int end);
     void quickSort(int left, int right);
     void quickInsertionSort(int left, int right);
+    void mergeSort(int left, int right);
     
     void runInsertionSortTimed();
     void runMergeSortTimed();
@@ -45,10 +45,11 @@ class Sorter{
     int randomNatural();
     
     private:
-    const static int arrayMax = 1000;
+    const static int arrayMax = 690000;
     int K, N;
     int array[arrayMax];
-    int arrayToSort[arrayMax];
+    int arrayToSave[arrayMax];
+    int mergeB[arrayMax];
     
     
 };
