@@ -15,9 +15,9 @@ int main() {
 
     Sorter sorter = *new Sorter();
     
-    sorter.runTimerTests();
+    //sorter.runTimerTests();
     
-    //cout <<  CLOCKS_PER_SEC << endl;
+    sorter.findBestSorter();
     
     return 0;
 }

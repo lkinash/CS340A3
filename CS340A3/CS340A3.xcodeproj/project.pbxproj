@@ -7,8 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		9013E0751DD68D8500C4AB86 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 90FB9D7C1DD0378900794477 /* main.cpp */; };
 		9013E0761DD68D8A00C4AB86 /* sorter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 90FB9D831DD037A900794477 /* sorter.cpp */; };
+		9013E08F1DDC3B5B00C4AB86 /* assign3.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9013E08D1DDBBA4F00C4AB86 /* assign3.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -24,8 +24,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		9013E08D1DDBBA4F00C4AB86 /* assign3.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = assign3.cpp; sourceTree = "<group>"; };
 		90FB9D791DD0378900794477 /* CS340A3 */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = CS340A3; sourceTree = BUILT_PRODUCTS_DIR; };
-		90FB9D7C1DD0378900794477 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		90FB9D831DD037A900794477 /* sorter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = sorter.cpp; sourceTree = "<group>"; };
 		90FB9D851DD037B200794477 /* sorter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = sorter.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -60,7 +60,7 @@
 		90FB9D7B1DD0378900794477 /* CS340A3 */ = {
 			isa = PBXGroup;
 			children = (
-				90FB9D7C1DD0378900794477 /* main.cpp */,
+				9013E08D1DDBBA4F00C4AB86 /* assign3.cpp */,
 				90FB9D831DD037A900794477 /* sorter.cpp */,
 				90FB9D851DD037B200794477 /* sorter.h */,
 			);
@@ -124,8 +124,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9013E08F1DDC3B5B00C4AB86 /* assign3.cpp in Sources */,
 				9013E0761DD68D8A00C4AB86 /* sorter.cpp in Sources */,
-				9013E0751DD68D8500C4AB86 /* main.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

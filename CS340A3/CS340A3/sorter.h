@@ -25,19 +25,21 @@ class Sorter{
     void quickInsertionSort(int left, int right);
     void mergeSort(int left, int right);
     
-    void runInsertionSortTimed();
-    void runMergeSortTimed();
-    void runQuickSortTimed();
-    void runQuickInsertionSortTimed();
+    double runInsertionSortTimed();
+    double runMergeSortTimed();
+    double runQuickSortTimed();
+    double runQuickInsertionSortTimed();
     
     void promtUser();
-    void takeUserInput();
     
     void copyArray();
     void printArray();
     void runTimerTests();
     
+    void findBestSorter();
+    
     int medianThree(int left, int right);
+    double minOfFour(double a, double b, double c, double d);
     
     void swap(int index1, int index2);
     
