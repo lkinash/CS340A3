@@ -6,10 +6,7 @@
 //  Copyright © 2016 Lindsey. All rights reserved.
 //
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <time.h>
-#include <iostream>
+
 #include "sorter.h"
 
 void Sorter::insertionSort(int start, int end){
@@ -131,11 +128,11 @@ void Sorter::mergeSort(int left, int right){
 
 double Sorter::runInsertionSortTimed(){
     
-    clock_t startTime = clock();
+    double startTime = myTime();
 
     insertionSort(0, N);
     
-    clock_t endTime = clock();
+    double endTime = myTime();
     
     double duration = double((endTime - startTime))/CLOCKS_PER_SEC * 1000;
     
@@ -145,13 +142,13 @@ double Sorter::runInsertionSortTimed(){
 
 double Sorter::runMergeSortTimed(){
  
-    clock_t startTime = clock();
+    double startTime = myTime();
     
     mergeSort(0, N-1);
     
-    clock_t endTime = clock();
+    double endTime = myTime();
     
-    double duration = double(endTime - startTime)/CLOCKS_PER_SEC * 1000;
+    double duration = double(endTime - startTime)/1000;
     
     return duration;
     
@@ -159,13 +156,13 @@ double Sorter::runMergeSortTimed(){
 
 double Sorter::runQuickSortTimed(){
     
-    clock_t startTime = clock();
+    double startTime = myTime();
     
     quickSort(0, N);
     
-    clock_t endTime = clock();
+    double endTime = myTime();
     
-    double duration = double(endTime - startTime)/CLOCKS_PER_SEC * 1000;
+    double duration = double(endTime - startTime)/ 1000;
     
     return duration;
     
@@ -173,16 +170,21 @@ double Sorter::runQuickSortTimed(){
 
 double Sorter::runQuickInsertionSortTimed(){
     
-    clock_t startTime = clock();
+    double startTime = myTime();
     
     quickInsertionSort(0, N);
     
-    clock_t endTime = clock();
+    double endTime = myTime();
     
-    double duration = double(endTime - startTime)/CLOCKS_PER_SEC * 1000;
+    double duration = double(endTime - startTime)/ 1000;
     
     return duration;
     
+}
+
+double Sorter::myTime(){
+    gettimeofday(tp,tzp);
+    return (( (double)  tp->tv_sec) * CLOCKS_PER_SEC )+ ( (double) tp->tv_usec );
 }
 
 void Sorter::promptUser(){
@@ -267,26 +269,26 @@ void Sorter::runTimerTests(){
     
     fillArrayWithRandomNaturals();
     copyArray();
-    printArray();
+    //printArray();
     
     duration = runQuickInsertionSortTimed();
     cout<<"Quick Insertion Sort Time: "<< duration << " ms" << endl;
-    printArray();
+    //printArray();
     
     copyArray();
     duration = runQuickSortTimed();
     cout<<"Quick Sort Time: "<< duration << " ms" << endl;
-    printArray();
+    //printArray();
     
     copyArray();
     duration = runMergeSortTimed();
     cout<<"Merge Sort Time: "<< duration << " ms" << endl;
-    printArray();
+    //printArray();
     
     copyArray();
     duration = runInsertionSortTimed();
     cout<<"Insertion Sort Time: "<< duration << " ms" << endl;
-    printArray();
+    //printArray();
     
 }
 
@@ -453,6 +455,8 @@ Sorter::Sorter(){
     
     K = 10;
     N = 500;
+    
+    tp=(struct timeval *) calloc(1,sizeof(struct timeval));
     
     srand (time(NULL));
 }

@@ -9,6 +9,12 @@
 #ifndef sorter_h
 #define sorter_h
 
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+#include <iostream>
+#include <sys/time.h>
+
 using namespace std;
 
 class OutOfBounds{};
@@ -46,6 +52,8 @@ class Sorter{
     void fillArrayWithRandomNaturals();
     int randomNatural();
     
+    double myTime();
+    
     private:
     const static int arrayMax = 690000;
     int K, N;
@@ -53,6 +61,8 @@ class Sorter{
     int arrayToSave[arrayMax];
     int mergeB[arrayMax];
     
+    struct timeval *tp;
+    struct timezone *tzp;
     
 };
 
