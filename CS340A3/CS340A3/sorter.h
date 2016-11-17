@@ -30,7 +30,7 @@ class Sorter{
     double runQuickSortTimed();
     double runQuickInsertionSortTimed();
     
-    void promtUser();
+    void promptUser();
     
     void copyArray();
     void printArray();

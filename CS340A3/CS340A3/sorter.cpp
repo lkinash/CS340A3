@@ -185,7 +185,7 @@ double Sorter::runQuickInsertionSortTimed(){
     
 }
 
-void Sorter::promtUser(){
+void Sorter::promptUser(){
  
     int input;
     string extra;
@@ -231,6 +231,12 @@ void Sorter::promtUser(){
             cin >> input;
             getline(cin, extra);
         }
+        else if(input > N){
+            cout << "A value greater than the N value entered is not valid for K, please enter a valid (between 1 and 690000 and less than N) K value:";
+            
+            cin >> input;
+            getline(cin, extra);
+        }
         else if(input > 690000){
             cout << "A value greater than 690000 is not valid for K, this will cause an array that is too big and could cause overflow or other access errors. Please enter a valid (between 1 and 690000) K value:";
             
@@ -257,47 +263,52 @@ void Sorter::runTimerTests(){
     
     double duration;
     
+    promptUser();
+    
     fillArrayWithRandomNaturals();
     copyArray();
-    //printArray();
+    printArray();
     
     duration = runQuickInsertionSortTimed();
     cout<<"Quick Insertion Sort Time: "<< duration << " ms" << endl;
-    //printArray();
+    printArray();
     
     copyArray();
     duration = runQuickSortTimed();
     cout<<"Quick Sort Time: "<< duration << " ms" << endl;
-    //printArray();
+    printArray();
     
     copyArray();
     duration = runMergeSortTimed();
     cout<<"Merge Sort Time: "<< duration << " ms" << endl;
-    //printArray();
+    printArray();
     
     copyArray();
     duration = runInsertionSortTimed();
     cout<<"Insertion Sort Time: "<< duration << " ms" << endl;
-    //printArray();
+    printArray();
     
 }
 
 void Sorter::findBestSorter(){
     
-    int jMax = 9, iMax = 40;
+    int jMax = 8, iMax = 40;
     
-    int testK[] = {1, 5, 10, 15, 20, 25, 50, 75, 100};
-    int testN[] = {1, 5, 10, 15, 20, 25, 50, 75, 100, 200,
+    int testK[] = {1, 5, 10, 15, 20, 25, 50, 100};
+    int testN[] = {2, 5, 10, 15, 20, 25, 50, 75, 100, 200,
                     300, 400, 500, 750, 1000, 1250, 1500, 1750, 2000, 2500,
                     3000, 4000, 5000, 6000, 7000, 8000, 9000, 10000, 12000, 14000,
-                    15000, 17500, 20000, 30000, 50000, 70000, 90000,
+                    15000, 17500, 20000, 30000, 50000, 65000, 70000, 90000,
                     100000, 150000, 250000, 300000};
 
     double bestQuick = 1000, bestQuickInsert = 1000, bestInsert = 1000;
     
-    double quick, quickInsert, insert, merge, best;
+    double quick = 1000, quickInsert = 1000, insert = 1000, merge = 1000, best = 1000;
     
     int bestQuickK = 0, bestQuickN = 0, bestQuickInsertK = 0, bestQuickInsertN = 0, bestInsertK = 0, bestInsertN = 0;
+    
+    N = arrayMax;
+    
     
     for(int i = 0; i < iMax; i++){
         
@@ -305,6 +316,8 @@ void Sorter::findBestSorter(){
         
         fillArrayWithRandomNaturals();
         
+        
+        cout << "N: " << N << endl;
         
         copyArray();
         quick = runQuickSortTimed();
@@ -320,7 +333,7 @@ void Sorter::findBestSorter(){
 
             K = testK[j];
 
-            if(N > K)
+            if(N >= K)
             {
                 copyArray();
                 quickInsert = runQuickInsertionSortTimed();
@@ -331,19 +344,71 @@ void Sorter::findBestSorter(){
                     bestQuickInsert = quickInsert;
                     bestQuickInsertK = K;
                     bestQuickInsertN = N;
+                    cout << "Current Best Quick Insertion Sort Time: " << bestQuickInsert << " with N = " << bestQuickInsertN << " and K = " << bestQuickInsertK << endl;
                 }
                 else if(insert == best && insert < bestInsert && insert > 0){
                     bestInsert = insert;
-                    bestInsertK = K;
                     bestInsertN = N;
+                    cout << "Current Best Insertion Sort Time: " << bestInsert << " with N = " << bestInsertN << endl;
                 }
                 else if(quick == best && quick < bestQuick && quick > 0){
                     bestQuick = quick;
-                    bestQuickK = K;
                     bestQuickN = N;
+                    cout << "Current Best Quick Sort Time: " << bestQuick << " with N = " << bestQuickN << endl;
                 }
             }
         }
+    }
+    
+    for(int i = 2; i < 500000; i = (i * 2)){
+        
+        N = i;
+        
+        cout << "N: " << N << endl;
+        
+        fillArrayWithRandomNaturals();
+        
+        copyArray();
+        quick = runQuickSortTimed();
+        
+        copyArray();
+        merge = runMergeSortTimed();
+        
+        copyArray();
+        insert = runInsertionSortTimed();
+        
+        
+        for(int j = 1; j < 200; j = (j*2)){
+            
+            K = j;
+            
+            if(N >= K)
+            {
+                copyArray();
+                quickInsert = runQuickInsertionSortTimed();
+                
+                best = minOfFour(quickInsert, quick, merge, insert);
+                
+                if(quickInsert == best && quickInsert < bestQuickInsert && quickInsert > 0){
+                    bestQuickInsert = quickInsert;
+                    bestQuickInsertK = K;
+                    bestQuickInsertN = N;
+                    cout << "Current Best Quick Insertion Sort Time: " << bestQuickInsert << " with N = " << bestQuickInsertN << " and K = " << bestQuickInsertK << endl;
+                }
+                else if(insert == best && insert < bestInsert && insert > 0){
+                    bestInsert = insert;
+                    bestInsertN = N;
+                    cout << "Current Best Insertion Sort Time: " << bestInsert << " with N = " << bestInsertN << endl;
+                }
+                else if(quick == best && quick < bestQuick && quick > 0){
+                    bestQuick = quick;
+                    bestQuickN = N;
+                    cout << "Current Best Quick Sort Time: " << bestQuick << " with N = " << bestQuickN << endl;
+                }
+            }
+        }
+        
+       
     }
     
     cout << "Best Quick Insertion Sort Time: " << bestQuickInsert << " with N = " << bestQuickInsertN << " and K = " << bestQuickInsertK << endl;

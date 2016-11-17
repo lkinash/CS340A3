@@ -15,9 +15,9 @@ int main() {
 
     Sorter sorter = *new Sorter();
     
-    //sorter.runTimerTests();
+    sorter.runTimerTests();
     
-    sorter.findBestSorter();
+    //sorter.findBestSorter();
     
     return 0;
 }
